@@ -5,6 +5,8 @@
 #ifndef FIBOHEAP_FIBOHEAP_H
 #define FIBOHEAP_FIBOHEAP_H
 #include "Node.h"
+#include <unordered_map>
+#include <vector>
 //Implementar constructores de copia, y con initializer list
 
 template<typename  T>
@@ -13,7 +15,56 @@ class FiboHeap {
     Node<T>* rootlist; //Se obtiene la lista enlazada del root y funciona como centinela
     Node<T>* ptr_min; //Puntero al minimo
 
-    void Consolidar(){
+    void Consolidar(){ //El metodo de consolidacion se encarga de garantizar que ningun arbol tengan degree repetido
+        //std::unordered_map<int, Node<T>*> arrayDegree; //Usar vector tmb xd
+
+        //Primero recorremos todo el rootlist
+        auto tailptr  = rootlist->left;
+        auto head = rootlist->right;
+        //Extrayendo el grado y el ptr al nodo para guardarlo en el map
+        int maxdegree = rootlist->degree;
+        while(head != tailptr->right){
+            if(maxdegree < head.degree){maxdegree = head.degree}
+            head = head.right;
+        }
+        std::vector<Node<T>*> arrayDegree (maxdegree+1, nullptr);
+        head = rootlist->right;
+        //Extrayendo el grado y guardando el ptr en el vector
+
+        do{
+            if(arrayDegree[head.degree] == nullptr){
+                arrayDegree[head.degree] = head;
+            }else{
+                //Aca hacemos la fusion
+                auto ptr_n1 = arrayDegree[head.degree];
+                if(ptr_n1.data > head.data){ //OBS: Algo anda mal con ptr_n1 y el vector
+                    ptr_n1.child = head;
+                    //Eliminar el head
+                    auto ptr_head= head.right;
+
+                    ptr_n1.right = ptr_head;
+                    ptr_head.right = ptr_n1;
+
+                    head = nullptr;
+                    head = ptr_head;
+
+
+                }else{
+                    head.child = ptr_n1;
+
+                }
+            }
+
+        } while (head != rootlist->right);
+    }
+
+    Node<T>* Mergear(Node<T>* n1, int d,std::vector<Node<T>*> & v){ //Este metodo va a hacer la el min heap
+        if(v[d] == nullptr){
+            v[d] = n1;
+            return v[d];
+        }else{
+
+        }
 
     }
 public:
@@ -81,6 +132,8 @@ public:
         return f3;
 
     }
+
+    
 
 
 };
