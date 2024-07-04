@@ -16,6 +16,7 @@ struct Node {
     Node():left(nullptr), right(nullptr), parent(nullptr), child(nullptr){}
     Node(T data):data(data), left(nullptr), right(nullptr), parent(nullptr), child(nullptr), degree(0){}
     Node(Node<T>* l, Node<T>* r, Node<T>* p, Node<T>* c): left(l), right(r), parent(p), child(c){}
+
     Node(Node<T>* l, Node<T>* r): left(l), right(r){}
     ~Node(){} //TO DO
 };
