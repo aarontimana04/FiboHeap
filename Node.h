@@ -15,8 +15,10 @@ struct Node {
     int degree = 0; //Tiene un ranking en el cual estp indica el numero de hijo
     Node():left(nullptr), right(nullptr), parent(nullptr), child(nullptr){}
     Node(T data):data(data), left(nullptr), right(nullptr), parent(nullptr), child(nullptr), degree(0){}
-    Node(Node<T>* l, Node<T>* r, Node<T>* p, Node<T>* c): left(l), right(r), parent(p), child(c){}
-    Node(Node<T>* l, Node<T>* r): left(l), right(r){}
+
+    Node(const Node<T>& other) : data(other.data), left(other.left), right(other.right), parent(other.parent), child(other.child), degree(other.degree) {} // constructor copia
+    Node(Node<T>* l, Node<T>* r, Node<T>* p, Node<T>* c): left(l), right(r), parent(p), child(c), degree(0){} //init list
+    Node(Node<T>* l, Node<T>* r): left(l), right(r), parent(nullptr), child(nullptr), degree(0){}
     ~Node(){} //TO DO
 };
 
